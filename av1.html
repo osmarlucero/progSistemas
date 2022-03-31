@@ -2,9 +2,27 @@
 <html> 
   <head>
     <script>
+      /*
+      SELECT ANOMBRE, CALIFICACION, TURNO
+FROM ALUMNOS, INSCRITOS, MATERIAS, CARRERAS
+WHERE MNOMBRE='LENAUT2' AND TURNO ='TM'
+AND CNOMBRE='ISC' AND SEMESTRE='2020I' AND CALIFICACION>=70
+      */
+      function regExp(){
+        let re = new RegExp("'SELECT' 'bANOMBRE' '[,=]' 'CALIFICACION' 'TURNO' 'FROM' 'AND' 'ALUMNOS' 'INSCRITOS' 'MATERIAS' 'bCARRERAS' 'bWHERE' 'bMNOMBRE' 'bCONSTANTE' 'bCNOMBRE' '[=>]' '70' 'SEMESTRE'/g");
+        let regexp = /[SELECT]{1,} [ANOMBRE]{1,}/g;
+        const str = 'SELECT SELECT SELECT SELECT ANOMBRE';
+        const array = [...str.match(regexp)];
+        var aux;
+        for(var i=0; i< array.length; i++){
+          aux=array[i];
+        console.log(aux);
+        }
+      }
         function getValueInput() {
           var textD = document.getElementById('textScan').value;
           alert(textD);
+          regExp();
         }
     </script> 
   </head>
@@ -14,7 +32,7 @@
 AVANCE
   </h4> 
   
- <textarea class="domTextElement"  id="textScan"style="width: 428px; height: 271px;"></textarea>
+ <textarea class="domTextElement"  id="textScan"style="width: 50%; height: 271px;"></textarea>
   <button type="button"  onclick="getValueInput()"> 
       VALIDAR
   </button> 
