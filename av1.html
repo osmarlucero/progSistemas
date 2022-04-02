@@ -10,8 +10,9 @@ WHERE MNOMBRE='LENAUT2' AND TURNO ='TM'
 AND CNOMBRE='ISC' AND SEMESTRE='2020I' AND CALIFICACION>=70
       */
       function agregar(no, linea, value,tipo, codigo){
+
           document.getElementById("bodyT").insertRow(-1).innerHTML =
-        '<td class="col-2 p-2">No.</td>'+
+        '<td class="col-2 p-2">'+linea+'</td>'+
           '<td class="col-2 p-2">linea</td>'+
           '<td class="col-2 p-1">'+value+'</td>'+
           '<td class="col-2 p-2">'+tipo+'</td>'+
@@ -55,31 +56,42 @@ AND CNOMBRE='ISC' AND SEMESTRE='2020I' AND CALIFICACION>=70
             agregar(no, linea, value ,1, 26);
         }else if(/INSERT/.test(value)){
             agregar(no, linea, value ,1, 27);
-        }
-        else if(/INTO/.test(value)){
+        }else if(/INTO/.test(value)){
             agregar(no, linea, value ,1, 28);
         }else if(/VALUES/.test(value)){
             agregar(no, linea, value ,1, 29);
+        }else if(/=/.test(value)){
+            agregar(no, linea, value ,8, 83);
+        }else if(/,/.test(value)){
+            agregar(no, linea, value ,5, 50);
         }
       }
-      function regExp(){
+      function regExp(value){
         var cadena = "SELECT ANOMBRE, CALIFICACION, TURNO"+
 "FROM ALUMNOS, INSCRITOS, MATERIAS, CARRERAS"+
 "WHERE MNOMBRE='LENAUT2' AND TURNO ='TM'"+
 "AND CNOMBRE='ISC' AND SEMESTRE='2020I' AND CALIFICACION>=70";
-        var expresion =/(?:SELECT|ANOMBRE|FROM|WHERE|IN|AND|OR|CREATE|TABLE|CHAR||NUMERIC|NOT|NULL|CONSTRAINT|KEY|PRIMARY|FOREIGN|REFERENCES|INSERT|INTO|VALUES (?<=FROM))/g;
+        cadena=value;
+        var expresion =/(?:SELECT|ANOMBRE|FROM|WHERE|IN|AND|OR|CREATE|TABLE|CHAR|NUMERIC|NOT|NULL|CONSTRAINT|KEY|PRIMARY|FOREIGN|REFERENCES|INSERT|INTO|VALUES|=|,)/g;
         var array_emparejamientos = cadena.match(expresion);
-        console.log(array_emparejamientos);
-        var aux;
-        for(var i=0; i< array_emparejamientos.length; i++){
-          aux=array_emparejamientos[i];
-          console.log(aux+"d");
-          getVal(1,i,aux,1);
+        if(expresion.test(cadena)){
+          console.log(array_emparejamientos);
+          var aux;
+          for(var i=0; i< array_emparejamientos.length; i++){
+            aux=array_emparejamientos[i];
+            console.log(aux+"d");
+            getVal(1,i+1,aux,1);
+          }
+        }else{
+          alert("no hay similitudes");
         }
       }
         function getValueInput() {
           var textD = document.getElementById('textScan').value;
-          regExp();
+          if(document.getElementById('textScan').value!="")
+            regExp(textD);
+            else
+              alert("Ingrese expresion");
         }
     </script> 
   </head>
@@ -88,24 +100,27 @@ AND CNOMBRE='ISC' AND SEMESTRE='2020I' AND CALIFICACION>=70
   <h4> 
 AVANCE
   </h4> 
-  
-    <textarea class="domTextElement"  id="textScan"style="width: 50%; height: 271px;"></textarea>
-    <button type="button"  onclick="getValueInput()"> 
-        VALIDAR
-    </button> 
+  <form action="#">
+
+    <textarea class="domTextElement"  id="textScan"style="width: 50%; height: 271px;" required></textarea>
+  <input type="submit" onclick="getValueInput()" value="VALIDAR">
+    
     <p id="valueInput"></p> 
     <center>
-      <table id="bodyT" class="table table-bordered table-striped col-12 bodyTable">
-        <tr>
-          <td class="col-2 p-2">No.</td>
-          <td class="col-2 p-2">linea</td>
-          <td class="col-2 p-1">TOKEN</td>
-          <td class="col-2 p-2">Tipo</td>
-          <td class="col-2 p-2">Codigo</td>
-        </tr>  
-    </table>
+      <div  class="col-10">
+        <table id="bodyT" class="table table-bordered table-striped col-12 bodyTable">
+          <tr>
+            <td class="col-2 p-2">No.</td>
+            <td class="col-2 p-2">linea</td>
+            <td class="col-2 p-1">TOKEN</td>
+            <td class="col-2 p-2">Tipo</td>
+            <td class="col-2 p-2">Codigo</td>
+          </tr>  
+      </table>
+    </div>
   </center>
 
+</form>
 </body> 
   
 </html> 
